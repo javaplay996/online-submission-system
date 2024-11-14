@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BianjiDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.username as username
+        ,a.password as password
+        ,a.bianji_name as bianjiName
+        ,a.sex_types as sexTypes
+        ,a.gaojian_types as gaojianTypes
+        ,a.bianji_number as bianjiNumber
+        ,a.bianji_phone as bianjiPhone
+        ,a.bianji_email as bianjiEmail
+        ,a.bianji_photo as bianjiPhoto
+        ,a.create_time as createTime
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.BianjiView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Bianji  a
+        <where>
+            <if test=" params.username != '' and params.username != null and params.username != 'null' ">
+                and a.username like CONCAT('%',#{params.username},'%')
+            </if>
+            <if test=" params.password != '' and params.password != null and params.password != 'null' ">
+                and a.password like CONCAT('%',#{params.password},'%')
+            </if>
+            <if test=" params.bianjiName != '' and params.bianjiName != null and params.bianjiName != 'null' ">
+                and a.bianji_name like CONCAT('%',#{params.bianjiName},'%')
+            </if>
+            <if test=" params.sexTypes != '' and params.sexTypes != null and params.sexTypes != 'null' ">
+                and a.sex_types = #{params.sexTypes}
+            </if>
+            <if test=" params.gaojianTypes != '' and params.gaojianTypes != null and params.gaojianTypes != 'null' ">
+                and a.gaojian_types = #{params.gaojianTypes}
+            </if>
+            <if test=" params.bianjiNumber != '' and params.bianjiNumber != null and params.bianjiNumber != 'null' ">
+                and a.bianji_number like CONCAT('%',#{params.bianjiNumber},'%')
+            </if>
+            <if test=" params.bianjiPhone != '' and params.bianjiPhone != null and params.bianjiPhone != 'null' ">
+                and a.bianji_phone like CONCAT('%',#{params.bianjiPhone},'%')
+            </if>
+            <if test=" params.bianjiEmail != '' and params.bianjiEmail != null and params.bianjiEmail != 'null' ">
+                and a.bianji_email like CONCAT('%',#{params.bianjiEmail},'%')
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>

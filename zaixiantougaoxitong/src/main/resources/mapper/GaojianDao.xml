@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.GaojianDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.gaojian_name as gaojianName
+        ,a.gaojian_types as gaojianTypes
+        ,a.insert_time as insertTime
+        ,a.yonghu_types as yonghuTypes
+        ,a.gaojian_file as gaojianFile
+        ,a.chushen_content as chushenContent
+        ,a.fushen_content as fushenContent
+        ,a.zhuangtai_types as zhuangtaiTypes
+        ,a.create_time as createTime
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.GaojianView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Gaojian  a
+        <where>
+            <if test=" params.gaojianName != '' and params.gaojianName != null and params.gaojianName != 'null' ">
+                and a.gaojian_name like CONCAT('%',#{params.gaojianName},'%')
+            </if>
+            <if test=" params.gaojianTypes != '' and params.gaojianTypes != null">
+                and a.gaojian_types = #{params.gaojianTypes}
+            </if>
+            <if test=" params.insertTimeStart != '' and params.insertTimeStart != null and params.insertTimeStart != 'null' ">
+                and a.insert_time &gt;= {params.insertTimeStart}
+            </if>
+            <if test=" params.insertTimeEnd != '' and params.insertTimeEnd != null and params.insertTimeEnd != 'null' ">
+                and a.insert_time &lt;= {params.insertTimeEnd}
+            </if>
+            <if test=" params.yonghuTypes != '' and params.yonghuTypes != null">
+                and a.yonghu_types = #{params.yonghuTypes}
+            </if>
+            <if test=" params.chushenContent != '' and params.chushenContent != null and params.chushenContent != 'null' ">
+                and a.chushen_content like CONCAT('%',#{params.chushenContent},'%')
+            </if>
+            <if test=" params.fushenContent != '' and params.fushenContent != null and params.fushenContent != 'null' ">
+                and a.fushen_content like CONCAT('%',#{params.fushenContent},'%')
+            </if>
+            <if test=" params.zhuangtaiTypes != '' and params.zhuangtaiTypes != null and params.zhuangtaiTypes != 'null' ">
+                and a.zhuangtai_types = #{params.zhuangtaiTypes}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
